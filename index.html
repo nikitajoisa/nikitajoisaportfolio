@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nikita Joisa — data, web, and curious things</title>
+  <meta name="description" content="Nikita Joisa — MSc Business Analytics (UCC). Data science, web development, and small things built with care." />
+
+  <!-- Google Fonts: Fraunces (display) + JetBrains Mono (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- My stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="wrap">
+
+    <!-- NAVIGATION -->
+    <nav>
+      <div class="logo">nikita<span>.</span></div>
+      <ul>
+        <li><a href="#about">about</a></li>
+        <li><a href="#projects">work</a></li>
+        <li><a href="#now">now</a></li>
+        <li><a href="#contact">say hi</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="tag reveal reveal-1">
+        <span class="dot"></span>
+        making things, breaking things, fixing things
+      </div>
+      <h1 class="reveal reveal-2">
+        <span class="hi">Hi!</span>
+        <span class="line">I'm <em>Nikita</em>.</span>
+        <span class="line">I build <span class="squiggle">websites</span></span>
+        <span class="line">&amp; I'm nosy about data.</span>
+      </h1>
+      <p class="lede reveal reveal-3">
+        MSc from UCC, engineering from NMIT. Currently at Leisureworld in Cork, where I'm building the website and poking around their data to see what it'll tell me. I like the bit where something clicks into place.
+      </p>
+      <div class="ctas reveal reveal-4">
+        <a href="#projects" class="btn primary">See my work ↓</a>
+        <a href="#contact" class="btn secondary">Let's talk</a>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="section-label">
+        <span class="num">01 /</span>
+        <h2>About <em>me</em></h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>I'm the kind of person who <span class="highlight">likes both sides</span> — the pretty front of a website and the messy spreadsheet behind it.</p>
+          <p>My brain wanders easily between "how does this look" and "what is this data actually saying." Which means I'll happily spend a morning tweaking a button's hover state and an afternoon untangling a CSV that was clearly assembled by a committee.</p>
+          <p>Outside of code: lifting weights, lifting books, cafe hopping, sleeping like it's a competitive sport, and slowly convincing myself I can bake.</p>
+        </div>
+        <div class="stats-card">
+          <h3>The stack</h3>
+          <div class="stat-row"><span>Front-end</span><span>HTML, CSS, JavaScript</span></div>
+          <div class="stat-row"><span>Languages</span><span>Python, Java, SQL, R</span></div>
+          <div class="stat-row"><span>ML &amp; Data</span><span>Pandas, Scikit-learn, TensorFlow</span></div>
+          <div class="stat-row"><span>Viz &amp; BI</span><span>Power BI, Streamlit, Matplotlib</span></div>
+          <div class="stat-row"><span>Databases</span><span>MySQL, MongoDB</span></div>
+          <div class="stat-row"><span>Location</span><span>Cork, IE</span></div>
+          <div class="stat-row">
+            <span>On loop</span>
+            <a class="song-link" href="https://www.youtube.com/watch?v=78wrful9cVU" target="_blank" rel="noopener">
+              <span class="note">♪</span> this one song
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <div class="section-label">
+        <span class="num">02 /</span>
+        <h2>Things I've <em>built</em></h2>
+      </div>
+      <div class="projects">
+
+        <a href="#" class="project">
+          <div class="project-num">01</div>
+          <div class="project-body">
+            <h3>Leisureworld Cork — Website &amp; Data Workflows</h3>
+            <p>My current playground. Building their website from scratch and quietly cleaning up how their data flows behind the scenes. Half the day I'm nudging buttons, half the day I'm wrangling spreadsheets. Live and ongoing since Jan 2026.</p>
+            <div class="tags">
+              <span class="tag">HTML/CSS/JS</span>
+              <span class="tag">Python</span>
+              <span class="tag">Data Analysis</span>
+              <span class="tag">Automation</span>
+              <span class="tag">Live project</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+
+        <a href="#" class="project">
+          <div class="project-num">02</div>
+          <div class="project-body">
+            <h3>Fashion Retail Demand Forecasting</h3>
+            <p>My MSc thesis — can a small retailer predict what'll sell next month using sales data, Google Trends, and (weirdly) Reddit? Turns out: kind of, yes. XGBoost did most of the heavy lifting, landed around 74% accuracy. Wrapped it in a Streamlit app so humans could actually use it.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">XGBoost</span>
+              <span class="tag">Power BI</span>
+              <span class="tag">Streamlit</span>
+              <span class="tag">MSc thesis</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+
+        <a href="#" class="project">
+          <div class="project-num">03</div>
+          <div class="project-body">
+            <h3>Smart Accident Severity Detection</h3>
+            <p>If we know the weather, the road, and the location — can we tell how bad an accident is likely to be, in real time? Built an LSTM-CNN hybrid to find out, then a Streamlit dashboard so the output wouldn't just live inside a notebook nobody opens.</p>
+            <div class="tags">
+              <span class="tag">TensorFlow</span>
+              <span class="tag">LSTM-CNN</span>
+              <span class="tag">Streamlit</span>
+              <span class="tag">ML pipeline</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+
+        <a href="#" class="project">
+          <div class="project-num">04</div>
+          <div class="project-body">
+            <h3>This Portfolio ✨</h3>
+            <p>The site you're reading. Hand-coded, no frameworks, no builders. If you're wondering what my front-end work looks like — you're already inside a sample of it.</p>
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">Design</span>
+            </div>
+          </div>
+          <div class="project-arrow">↗</div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- NOW -->
+    <section class="section" id="now">
+      <div class="section-label">
+        <span class="num">03 /</span>
+        <h2>Right <em>now</em></h2>
+      </div>
+
+      <div class="now-layout">
+
+        <!-- a sticky-note style block -->
+        <div class="now-note note-1">
+          <h4>Learning</h4>
+          <p>Falling down the JavaScript + React rabbit hole. Making small things I don't need, for practice.</p>
+        </div>
+
+        <!-- a wide "building" strip -->
+        <div class="now-building">
+          <div class="now-building-label">🔨 currently building</div>
+          <div class="now-building-title">the Leisureworld website &amp; the plumbing behind it</div>
+        </div>
+
+        <!-- another note -->
+        <div class="now-note note-2">
+          <h4>Obsessing over</h4>
+          <p>Tiny tools that small teams actually use. Less dashboard, more "oh this saves me 20 minutes a day."</p>
+        </div>
+
+        <!-- a little throwaway personal line with the song -->
+        <p class="now-aside">
+          on repeat while I code:
+          <a href="https://www.youtube.com/watch?v=78wrful9cVU" target="_blank" rel="noopener">
+            <span class="note">♪</span> a song I can't stop playing
+          </a>
+        </p>
+
+        <!-- a goal pill -->
+        <div class="now-goal">
+          <span class="now-goal-star">✦</span>
+          <span>Always looking for the next interesting problem.</span>
+          <span class="now-goal-star">✦</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <h2>Let's <em>talk</em>.</h2>
+      <a href="mailto:nikitajoisa@gmail.com" class="email">nikitajoisa@gmail.com</a>
+      <div class="socials">
+        <a href="https://github.com/nikitajoisa" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/nikitajoisa/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="#resume">Résumé</a>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Nikita Joisa · Cork, Ireland · Built with HTML, CSS &amp; caffeine.
+    </footer>
+
+  </div>
+
+  <!-- Tiny bit of JS: keep the footer year current -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
