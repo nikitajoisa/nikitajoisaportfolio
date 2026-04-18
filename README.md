@@ -33,7 +33,7 @@ open index.html
 
 ## Say hi
 
-- 📧 [nikitajoisa@gmail.com](mailto:nikitajoisa@gmail.com)
+- 📧 [nikitajoisaie@gmail.com](mailto:nikitajoisa@gmail.com)
 - 💼 [LinkedIn](https://www.linkedin.com/in/nikitajoisa/)
 - 🐙 [GitHub](https://github.com/nikitajoisa)
 
