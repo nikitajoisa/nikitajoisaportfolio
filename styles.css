@@ -1,5 +1,5 @@
 /* ============================================
-   YOUR PORTFOLIO — STYLES
+   MY PORTFOLIO — STYLES
    Organized in the same order as the HTML:
    1. Variables (colors & fonts)
    2. Global resets & body
@@ -16,8 +16,7 @@
    ============================================ */
 
 
-/* 1. VARIABLES -------------------------------
-   Change these values to re-skin the whole site. */
+/* 1. VARIABLES -------------------------------*/
 :root {
   --bg: #f3ede3;
   --bg-deep: #e8dfd0;
