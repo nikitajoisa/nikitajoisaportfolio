@@ -1,241 +1,1163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nikita's little corner on the internet</title>
-  <meta name="description" content="Nikita Joisa - MSc Business Analytics (UCC). Data science, web development, and small things built with care." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[your name] — portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
 
-  <!-- Open Graph: how the site looks when shared on LinkedIn, WhatsApp, Slack, etc. -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Nikita's little corner on the internet" />
-  <meta property="og:description" content="MSc Business Analytics (UCC). I build websites and I'm nosy about data. Hand-coded, lightly tilted." />
-  <meta property="og:url" content="https://nikitajoisa.github.io/nikitajoisaportfolio/" />
-  <meta property="og:image" content="https://nikitajoisa.github.io/nikitajoisaportfolio/preview.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="nikita's corner of the internet" />
+  :root{
+    --bg: #f7f7f5;
+    --ink: #0a0a0a;
+    --grey-0: #d6d6d3;
+    --grey-1: #9c9c98;
+    --pill: #ececea;
+    --pill-ink: #111111;
+  }
 
-  <!-- Twitter cards -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Nikita's little corner on the internet" />
-  <meta name="twitter:description" content="MSc Business Analytics (UCC). I build websites and I'm nosy about data." />
-  <meta name="twitter:image" content="https://nikitajoisa.github.io/nikitajoisaportfolio/preview.png" />
+  *{ margin:0; padding:0; box-sizing:border-box; }
 
-  <!-- Favicon (the little icon in the browser tab) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23ff5b2e'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='Georgia,serif' font-size='55' font-style='italic' font-weight='900' fill='%23f3ede3'%3En%3C/text%3E%3C/svg%3E" />
+  html{ scroll-behavior:smooth; }
 
-  <!-- Google Fonts: Fraunces (display) + JetBrains Mono (body) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+    cursor:default;
+  }
 
-  <!-- My stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  /* ---------- PRELOADER (particles scatter → form "nikita") ---------- */
+  #preloader{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:var(--bg);
+    transition:transform .9s cubic-bezier(.76,0,.24,1), opacity .6s ease .1s;
+  }
+  #preloader.hide{
+    transform:translateY(-100%);
+    opacity:0;
+    pointer-events:none;
+  }
+  #particleCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+  }
+  .skip-intro{
+    position:absolute;
+    bottom:32px;
+    right:32px;
+    background:var(--pill);
+    color:var(--pill-ink);
+    border:none;
+    padding:10px 18px;
+    border-radius:999px;
+    font-size:13px;
+    font-family:'Inter', sans-serif;
+    cursor:pointer;
+    opacity:.75;
+    transition:opacity .2s ease;
+  }
+  .skip-intro:hover{ opacity:1; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:24px 32px;
+    z-index:50;
+    pointer-events:none;
+  }
+  nav > *{ pointer-events:auto; }
+
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border-radius:999px;
+    background:var(--pill);
+    color:var(--pill-ink);
+    font-size:13px;
+    font-weight:500;
+    border:none;
+    cursor:pointer;
+    transition:background .25s ease, transform .25s ease;
+  }
+  .pill:hover{ transform:translateY(-1px); }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--pill-ink); display:inline-block; }
+
+  .menu-pill{
+    background:var(--ink);
+    color:#fff;
+    padding:10px 6px 10px 20px;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:.02em;
+  }
+  .menu-pill span.bracket{ opacity:.5; margin-right:14px; font-weight:400; }
+  .menu-pill .menu-btn{
+    background:#fff;
+    color:var(--ink);
+    border-radius:999px;
+    padding:8px 18px;
+    margin-left:10px;
+  }
+
+  .lang-pill{ background:#8fd3ff; color:#00304a; padding:8px 8px; }
+  .lang-pill .dot{ background:#fff; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:110px;
+    overflow:hidden;
+  }
+
+  .hero-meta{
+    display:flex;
+    justify-content:space-between;
+    padding:0 40px;
+    font-size:13px;
+    color:var(--grey-1);
+    margin-bottom:40px;
+  }
+  .hero-meta .listen{ display:flex; align-items:center; gap:8px; }
+  .hero-meta .ring{
+    width:8px; height:8px; border-radius:50%;
+    border:1.5px solid var(--grey-1);
+  }
+
+  .portrait-wrap{
+    position:relative;
+    width:340px;
+    aspect-ratio:3/4;
+    margin:0 auto;
+    z-index:2;
+    border-radius:2px;
+    overflow:hidden;
+    background:linear-gradient(150deg,#3a3a3a 0%,#161616 45%,#4a4a4a 100%);
+  }
+  .portrait-wrap.top-slot{ z-index:2; }
+  .portrait-wrap svg{ width:100%; height:100%; display:block; }
+  .portrait-wrap video{ width:100%; height:100%; object-fit:cover; display:block; }
+  .portrait-wrap canvas{ width:100%; height:100%; display:block; }
+  .portrait-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .portrait-caption{
+    text-align:center;
+    margin-top:14px;
+    font-size:13px;
+    color:var(--grey-1);
+    letter-spacing:.02em;
+  }
+
+  .marquee-layer{
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    display:flex;
+    align-items:center;
+    pointer-events:none;
+  }
+  /* black copy sits under the photo */
+  .marquee-layer.layer-black{ z-index:1; }
+  /* white copy sits above the photo, but is clipped (via JS) to exactly
+     the photo's rectangle, so it's only ever visible there */
+  .marquee-layer.layer-white{ z-index:3; }
+
+  .marquee-track{
+    display:flex;
+    white-space:nowrap;
+    animation:scrollLeft 22s linear infinite;
+    will-change:transform;
+  }
+  .marquee-track span{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(64px, 11vw, 150px);
+    line-height:1;
+    padding-right:0.35em;
+    letter-spacing:-0.01em;
+  }
+  .layer-black .marquee-track span{ color:#0a0a0a; }
+  .layer-white .marquee-track span{ color:#ffffff; }
+  .marquee-track .sep{ opacity:.9; }
+
+  @keyframes scrollLeft{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+
+  /* ---------- INTRO ROW (appears on scroll) ---------- */
+  .intro{
+    max-width:1400px;
+    margin:120px auto 0;
+    padding:0 40px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .intro.visible{ opacity:1; transform:translateY(0); }
+
+  .intro .eyebrow{ font-size:14px; color:var(--grey-1); margin-bottom:6px; }
+  .intro .who{ font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:700; }
+  .intro .desc{
+    font-size:19px;
+    line-height:1.5;
+    color:#3a3a3a;
+    max-width:480px;
+    justify-self:end;
+    text-align:left;
+  }
+
+  /* ---------- SKILLS (pop in on scroll) ---------- */
+  .skills{
+    padding:100px 40px;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .section-head{
+    text-align:center;
+    margin-bottom:48px;
+  }
+  .section-head h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:22px;
+    font-weight:700;
+  }
+  .skills-cloud{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px;
+  }
+  .skill-pill{
+    border:1.5px solid var(--ink);
+    border-radius:999px;
+    padding:10px 20px;
+    font-size:14px;
+    font-weight:500;
+    opacity:0;
+    transform:translateY(14px) scale(.92);
+    transition:opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1);
+  }
+  .skill-pill.visible{ opacity:1; transform:translateY(0) scale(1); }
+  .skill-pill.filled{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+  /* ---------- ACHIEVEMENTS (numbered columns) ---------- */
+  .achievements{
+    padding:100px 40px 120px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .ach-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+  }
+  .ach-col{
+    border-left:1px solid var(--grey-0);
+    padding:0 32px;
+  }
+  .ach-col:first-child{ border-left:none; padding-left:0; }
+  .ach-num{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(48px, 6vw, 84px);
+    line-height:1;
+  }
+  .ach-label{
+    font-size:12px;
+    letter-spacing:.08em;
+    color:var(--grey-1);
+    margin:14px 0 28px;
+    text-transform:uppercase;
+  }
+  .ach-list{ list-style:none; }
+  .ach-list li{
+    font-size:15px;
+    line-height:1.7;
+    color:#333;
+  }
+  .ach-list li small{
+    display:block;
+    color:var(--grey-1);
+    font-size:12px;
+  }
+
+  @media (max-width:800px){
+    .ach-grid{ grid-template-columns:1fr; }
+    .ach-col{ border-left:none; padding:0 0 40px; border-top:1px solid var(--grey-0); padding-top:32px; }
+    .ach-col:first-child{ border-top:none; padding-top:0; }
+  }
+
+  /* ---------- SWOT (geometry animation) ---------- */
+  .swot{
+    padding:100px 40px 140px;
+  }
+  .swot-diagram{
+    position:relative;
+    max-width:760px;
+    margin:0 auto;
+  }
+  .swot-svg{ width:100%; height:auto; display:block; }
+  .swot-svg .swot-line{
+    stroke:var(--grey-0);
+    stroke-width:1.2;
+    fill:none;
+    stroke-dasharray:220;
+    stroke-dashoffset:220;
+    transition:stroke-dashoffset .55s cubic-bezier(.65,0,.35,1);
+  }
+  /* the sequence lives entirely in these four delay values —
+     each line waits for the circle, then for the line before it */
+  .swot-diagram.in-view .swot-svg .line-1{ stroke-dashoffset:0; transition-delay:.6s; }
+  .swot-diagram.in-view .swot-svg .line-2{ stroke-dashoffset:0; transition-delay:1.3s; }
+  .swot-diagram.in-view .swot-svg .line-3{ stroke-dashoffset:0; transition-delay:2.0s; }
+  .swot-diagram.in-view .swot-svg .line-4{ stroke-dashoffset:0; transition-delay:2.7s; }
+
+  .swot-svg .swot-circle{
+    fill:var(--bg);
+    stroke:var(--ink);
+    stroke-width:1.4;
+    stroke-dasharray:4 5;
+    transform-origin:300px 200px;
+    transform:scale(0);
+    transition:transform .6s cubic-bezier(.34,1.56,.64,1);
+  }
+  .swot-diagram.in-view .swot-svg .swot-circle{ transform:scale(1); }
+
+  .swot-svg .swot-node{
+    fill:var(--ink);
+    opacity:0;
+    transform-origin:center;
+    transform:scale(0);
+    transition:opacity .25s ease, transform .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .swot-diagram.in-view .swot-svg .n1{ opacity:1; transform:scale(1); transition-delay:1.05s; }
+  .swot-diagram.in-view .swot-svg .n2{ opacity:1; transform:scale(1); transition-delay:1.75s; }
+  .swot-diagram.in-view .swot-svg .n3{ opacity:1; transform:scale(1); transition-delay:2.45s; }
+  .swot-diagram.in-view .swot-svg .n4{ opacity:1; transform:scale(1); transition-delay:3.15s; }
+
+  .swot-center{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.05em;
+    opacity:0;
+    transition:opacity .4s ease .3s, transform .4s cubic-bezier(.34,1.56,.64,1) .3s;
+  }
+  .swot-diagram.in-view .swot-center{ opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+  .swot-label{
+    position:absolute;
+    width:180px;
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity .45s ease, transform .45s ease;
+  }
+  .swot-label .l-title{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:15px; margin-bottom:4px; }
+  .swot-label .l-desc{ font-size:12.5px; line-height:1.5; color:var(--grey-1); }
+  .swot-label.pos-tl{ top:2%; left:0; text-align:left; }
+  .swot-label.pos-tr{ top:2%; right:0; text-align:right; }
+  .swot-label.pos-bl{ bottom:2%; left:0; text-align:left; }
+  .swot-label.pos-br{ bottom:2%; right:0; text-align:right; }
+  /* each label lands right as its line finishes drawing */
+  .swot-diagram.in-view .swot-label.pos-tl{ opacity:1; transform:translateY(0); transition-delay:1.1s; }
+  .swot-diagram.in-view .swot-label.pos-tr{ opacity:1; transform:translateY(0); transition-delay:1.8s; }
+  .swot-diagram.in-view .swot-label.pos-bl{ opacity:1; transform:translateY(0); transition-delay:2.5s; }
+  .swot-diagram.in-view .swot-label.pos-br{ opacity:1; transform:translateY(0); transition-delay:3.2s; }
+
+  @media (max-width:700px){
+    .swot-label{ position:static; width:auto; margin-bottom:20px; text-align:left !important; }
+    .swot-diagram{ display:flex; flex-direction:column; gap:0; }
+  }
+
+  footer{
+    text-align:center;
+    padding:60px 40px 100px;
+    color:var(--grey-1);
+    font-size:13px;
+  }
+
+  /* ---------- CONTACT REVEAL (page-peel effect) ---------- */
+  /* the trick: .page-front holds ALL normal content and sits on top (z-index 1)
+     with a solid background and rounded bottom corners, like a physical page.
+     it's pulled up by a negative bottom margin equal to one viewport height —
+     that "borrows" space from .contact-reveal underneath it.
+     .contact-reveal is position:sticky + bottom:0, so once it's naturally in
+     view it locks to the bottom of the screen — and because .page-front is
+     overlapping it, page-front's rounded edge visibly slides up and off,
+     uncovering contact-reveal like pulling back a page to reveal the one
+     underneath. */
+  .page-front{
+    position:relative;
+    z-index:1;
+    background:var(--bg);
+    border-radius:0 0 40px 40px;
+    box-shadow:0 30px 60px rgba(0,0,0,.12);
+    margin-bottom:-100vh;
+  }
+  .contact-reveal{
+    position:sticky;
+    bottom:0;
+    height:100vh;
+    z-index:0;
+    background:var(--ink);
+    color:#f5f5f3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .contact-inner{ text-align:center; }
+  .contact-eyebrow{
+    font-size:14px;
+    color:rgba(245,245,243,.5);
+    margin-bottom:20px;
+  }
+  .contact-email{
+    display:inline-block;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(32px, 6vw, 68px);
+    color:#f5f5f3;
+    text-decoration:none;
+    border-bottom:2px solid transparent;
+    transition:border-color .25s ease;
+  }
+  .contact-email:hover{ border-color:#f5f5f3; }
+  .contact-links{
+    margin-top:32px;
+    display:flex;
+    gap:24px;
+    justify-content:center;
+  }
+  .contact-links a{
+    color:rgba(245,245,243,.6);
+    text-decoration:none;
+    font-size:14px;
+    transition:color .2s ease;
+  }
+  .contact-links a:hover{ color:#f5f5f3; }
+
+  /* ---------- PROJECT FEED (swipeable cards) ---------- */
+  .work{
+    padding:80px 0 40px;
+  }
+  .work-head{
+    padding:0 40px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .work-head h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:22px;
+    font-weight:700;
+  }
+  .work-head span{ font-size:13px; color:var(--grey-1); }
+
+  .project-entry{
+    max-width:640px;
+    margin:0 auto 96px;
+    padding:0 24px;
+  }
+  .p-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:16px;
+    background:none;
+    border:none;
+    padding:0;
+    width:100%;
+    cursor:pointer;
+    text-align:left;
+    font:inherit;
+    color:inherit;
+  }
+  .p-head .p-title{ font-size:17px; font-weight:600; }
+  .p-head .p-client{ font-size:13px; color:var(--grey-1); margin-top:2px; }
+  .p-head .p-year{ font-size:13px; color:var(--grey-1); }
+
+  .p-card{
+    position:relative;
+    border-radius:22px;
+    overflow:hidden;
+    background:#111;
+    box-shadow:0 30px 60px -24px rgba(10,10,10,.35);
+  }
+  .p-slides{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .p-slides::-webkit-scrollbar{ display:none; }
+  .p-slide{
+    flex:0 0 100%;
+    scroll-snap-align:start;
+    aspect-ratio:4/5;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .p-slide video, .p-slide img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .p-slide.video-slot{
+    flex-direction:column;
+    gap:10px;
+    color:rgba(255,255,255,.5);
+    font-size:13px;
+    text-align:center;
+    padding:24px;
+    border:1px dashed rgba(255,255,255,.25);
+    margin:1px;
+  }
+
+  .p-dots{
+    position:absolute;
+    bottom:16px; left:50%;
+    transform:translateX(-50%);
+    display:flex; gap:6px;
+    z-index:2;
+  }
+  .p-dots span{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:rgba(255,255,255,.4);
+    transition:background .2s ease;
+  }
+  .p-dots span.active{ background:#fff; }
+
+  .card-visual > *{ transition:transform .5s cubic-bezier(.16,1,.3,1); }
+
+  /* --- mockup 1: admin dashboard --- */
+  .mock-browser{
+    width:84%;
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 24px 48px -16px rgba(10,20,30,.28);
+  }
+  .mock-topbar{ display:flex; align-items:center; gap:6px; padding:10px 12px; background:#f0f0ee; border-radius:8px 8px 0 0; }
+  .mock-topbar i{ width:8px; height:8px; border-radius:50%; display:block; }
+  .mock-topbar i:nth-child(1){ background:#ff5f57; }
+  .mock-topbar i:nth-child(2){ background:#febc2e; }
+  .mock-topbar i:nth-child(3){ background:#28c840; }
+  .mock-body{ display:flex; padding:14px; gap:12px; }
+  .mock-sidebar{ display:flex; flex-direction:column; gap:10px; padding-top:2px; }
+  .mock-sidebar i{ width:14px; height:14px; border-radius:4px; background:#e4e6ea; display:block; }
+  .mock-main{ flex:1; display:flex; flex-direction:column; gap:8px; }
+  .mock-row{ display:flex; align-items:center; gap:8px; background:#f6f7f8; border-radius:6px; padding:7px 9px; }
+  .mock-row .avatar{ width:16px; height:16px; border-radius:50%; background:#c9d4e0; flex-shrink:0; }
+  .mock-row .lines{ flex:1; display:flex; flex-direction:column; gap:4px; }
+  .mock-row .lines span{ display:block; height:5px; border-radius:3px; background:#dfe3e8; }
+  .mock-row .lines span:last-child{ width:60%; }
+  .mock-row .tag{ font-size:7px; font-weight:700; color:#2b6cb0; background:#dbeafe; padding:3px 6px; border-radius:4px; }
+
+  /* --- mockup 2: player card --- */
+  .mock-player{
+    width:70%;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 24px 48px -16px rgba(10,20,30,.28);
+    padding:20px;
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+  }
+  .mock-disc{
+    width:88px; height:88px; border-radius:50%;
+    background:conic-gradient(from 180deg,#1db954,#0a3d1f,#1db954);
+    position:relative;
+  }
+  .mock-disc::after{ content:""; position:absolute; inset:36%; border-radius:50%; background:#fff; }
+  .mock-player .lines{ width:100%; display:flex; flex-direction:column; gap:6px; align-items:center; }
+  .mock-player .lines span{ display:block; height:6px; border-radius:3px; background:#e4e6ea; }
+  .mock-player .lines span.title{ width:70%; height:8px; background:#333; }
+  .mock-player .lines span.sub{ width:45%; }
+  .mock-progress{ width:100%; height:4px; border-radius:2px; background:#eceeef; overflow:hidden; }
+  .mock-progress i{ display:block; width:38%; height:100%; background:#1db954; }
+
+  /* --- mockup 3: chat + stats --- */
+  .mock-panel{
+    width:86%;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 24px 48px -16px rgba(10,20,30,.28);
+    padding:16px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .mock-stats{ display:flex; gap:8px; }
+  .mock-stats .card{ flex:1; background:#f7f5fb; border-radius:8px; padding:8px 10px; }
+  .mock-stats .card b{ display:block; font-size:15px; color:#20003d; }
+  .mock-stats .card small{ font-size:8px; color:#9c9c98; }
+  .mock-chat{ display:flex; flex-direction:column; gap:6px; }
+  .mock-bubble{ max-width:70%; padding:7px 10px; border-radius:10px; font-size:0; }
+  .mock-bubble span{ display:block; height:5px; border-radius:3px; background:currentColor; opacity:.35; width:80px; }
+  .mock-bubble.left{ align-self:flex-start; background:#f0f0f0; color:#333; border-bottom-left-radius:2px; }
+  .mock-bubble.right{ align-self:flex-end; background:#20003d; color:#fff; border-bottom-right-radius:2px; }
+  .mock-bubble.right span{ opacity:.55; }
+
+  @media (max-width:800px){
+    .intro{ grid-template-columns:1fr; }
+    .intro .desc{ justify-self:start; }
+  }
+
+  @media (min-width:900px){
+    .project-entry{ max-width:400px; }
+
+    .project-list{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:28px;
+      max-width:1320px;
+      margin:0 auto;
+      padding:0 40px;
+      align-items:start;
+    }
+    .project-list .project-entry{
+      max-width:none;
+      margin:0;
+      padding:0;
+    }
+  }
+</style>
 </head>
 <body>
 
-  <div class="wrap">
+<div id="preloader">
+  <canvas id="particleCanvas"></canvas>
+  <button class="skip-intro" id="skipIntro">skip intro</button>
+</div>
 
-    <!-- NAVIGATION -->
-    <nav>
-      <div class="logo">nikita<span>.</span></div>
-      <ul>
-        <li><a href="#about">about</a></li>
-        <li><a href="#projects">work</a></li>
-        <li><a href="#now">now</a></li>
-        <li><a href="#contact">say hi</a></li>
+<div class="page-front">
+
+<nav>
+  <a href="#contact" class="pill"><span class="dot"></span>get in touch</a>
+  <button class="pill menu-pill" id="menuToggle">
+    <span class="bracket">[ ]</span><span class="menu-btn">menu</span>
+  </button>
+  <button class="pill lang-pill"><span class="dot"></span>en</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-meta">
+    <span id="clock">00:00:00</span>
+    <span class="listen"><span class="ring"></span>lend an ear</span>
+  </div>
+
+  <div class="portrait-wrap">
+    <video src="videos/hero.mp4" autoplay muted loop playsinline poster="videos/hero-poster.jpg"></video>
+  </div>
+
+  <div class="marquee-layer layer-black">
+    <div class="marquee-track" id="trackBlack">
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+    </div>
+  </div>
+  <div class="marquee-layer layer-white" id="whiteLayer">
+    <div class="marquee-track" id="trackWhite">
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+      <span>curiosity</span><span class="sep">•</span><span>clarity</span><span class="sep">•</span>
+    </div>
+  </div>
+</section>
+
+<div class="intro" id="introRow">
+  <div>
+    <div class="eyebrow">[hey, i'm]</div>
+    <div class="who">[your name]</div>
+  </div>
+  <p class="desc">i build data-driven products end to end — from the pipeline to the interface. what i care about is turning messy data into something a person can actually use.</p>
+</div>
+
+<section class="swot">
+  <div class="section-head"><h2>how i see it</h2></div>
+  <div class="swot-diagram" id="swotDiagram">
+    <svg class="swot-svg" viewBox="0 0 600 400" aria-hidden="true">
+      <line class="swot-line line-1" x1="300" y1="200" x2="130" y2="90"></line>
+      <line class="swot-line line-2" x1="300" y1="200" x2="470" y2="90"></line>
+      <line class="swot-line line-3" x1="300" y1="200" x2="130" y2="310"></line>
+      <line class="swot-line line-4" x1="300" y1="200" x2="470" y2="310"></line>
+      <circle class="swot-circle" cx="300" cy="200" r="62"></circle>
+      <circle class="swot-node n1" cx="130" cy="90" r="4.5"></circle>
+      <circle class="swot-node n2" cx="470" cy="90" r="4.5"></circle>
+      <circle class="swot-node n3" cx="130" cy="310" r="4.5"></circle>
+      <circle class="swot-node n4" cx="470" cy="310" r="4.5"></circle>
+    </svg>
+    <div class="swot-center">SWOT</div>
+    <div class="swot-label pos-tl">
+      <div class="l-title">strengths</div>
+      <div class="l-desc">full-stack + data engineering in one person — i ship the pipeline and the interface it feeds.</div>
+    </div>
+    <div class="swot-label pos-tr">
+      <div class="l-title">weaknesses</div>
+      <div class="l-desc">still building industry-scale experience — everything so far has been self-taught or self-proposed.</div>
+    </div>
+    <div class="swot-label pos-bl">
+      <div class="l-title">opportunities</div>
+      <div class="l-desc">selected for pair ireland — 1 of 18 out of 1,500+ applicants, mentored directly by a senior google engineer.</div>
+    </div>
+    <div class="swot-label pos-br">
+      <div class="l-title">threats</div>
+      <div class="l-desc">a crowded junior market where speed of learning has to outpace speed of hiring.</div>
+    </div>
+  </div>
+</section>
+
+<section class="skills">
+  <div class="section-head"><h2>skills</h2></div>
+  <div class="skills-cloud" id="skillsCloud">
+    <span class="skill-pill filled">javascript</span>
+    <span class="skill-pill">python</span>
+    <span class="skill-pill">sql</span>
+    <span class="skill-pill">php</span>
+    <span class="skill-pill filled">full-stack</span>
+    <span class="skill-pill">bootstrap</span>
+    <span class="skill-pill">css3</span>
+    <span class="skill-pill">node.js</span>
+    <span class="skill-pill">express</span>
+    <span class="skill-pill">rest apis</span>
+    <span class="skill-pill filled">data engineering</span>
+    <span class="skill-pill">git</span>
+    <span class="skill-pill">data analysis</span>
+    <span class="skill-pill">business analytics</span>
+    <span class="skill-pill">oauth</span>
+    <span class="skill-pill">problem solving</span>
+  </div>
+</section>
+
+<section class="achievements">
+  <div class="section-head"><h2>achievements &amp; leadership</h2></div>
+  <div class="ach-grid">
+    <div class="ach-col">
+      <div class="ach-num">01</div>
+      <div class="ach-label">leadership</div>
+      <ul class="ach-list">
+        <li>secretary — ieee computer society chapter</li>
+        <li>social media head — enigma entrepreneurship cell</li>
       </ul>
-    </nav>
+    </div>
+    <div class="ach-col">
+      <div class="ach-num">02</div>
+      <div class="ach-label">programs</div>
+      <ul class="ach-list">
+        <li>pair ireland mentoring program<small>1 of 18 selected from 1,500+ applicants, mentored by a senior google engineer</small></li>
+        <li>llm research &amp; testing internship<small>patodia infotech, bengaluru — reduced model failure rate through structured validation</small></li>
+      </ul>
+    </div>
+    <div class="ach-col">
+      <div class="ach-num">03</div>
+      <div class="ach-label">education</div>
+      <ul class="ach-list">
+        <li>msc business analytics<small>university college cork</small></li>
+        <li>be, information science &amp; engineering<small>nitte meenakshi institute of technology, bengaluru</small></li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-    <!-- HERO -->
-    <header class="hero">
-      <div class="tag reveal reveal-1">
-        <span class="dot"></span>
-        making things, breaking things, fixing things
-      </div>
-      <h1 class="reveal reveal-2">
-        <span class="hi">Hi!</span>
-        <span class="line">I'm <em>Nikita</em>.</span>
-        <span class="line">I build <span class="squiggle">websites</span></span>
-        <span class="line">&amp; I'm nosy about data.</span>
-      </h1>
-      <p class="lede reveal reveal-3">
-        MSc from UCC, engineering from NMIT. Currently at Leisureworld in Cork, where I'm building the website and poking around their data to see what it'll tell me. I like the bit where something clicks into place.
-      </p>
-      <div class="ctas reveal reveal-4">
-        <a href="#projects" class="btn primary">See my work ↓</a>
-        <a href="#contact" class="btn secondary">Let's talk</a>
-      </div>
-    </header>
+<section class="work">
+  <div class="work-head">
+    <h2>my best work</h2>
+    <span>03 projects</span>
+  </div>
 
-    <!-- ABOUT -->
-    <section class="section" id="about">
-      <div class="section-label">
-        <span class="num">01 /</span>
-        <h2>About <em>me</em></h2>
-      </div>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>I'm the kind of person who <span class="highlight">likes both sides.</span> The pretty front of a website and the messy spreadsheet behind it.</p>
-          <p>My brain wanders easily between "how does this look" and "what is this data actually saying." Which means I'll happily spend a morning tweaking a button's hover state and an afternoon untangling a CSV that was clearly assembled by a committee.</p>
-          <p>Outside of code: lifting weights, lifting books, cafe hopping, sleeping like it's a competitive sport, and slowly convincing myself I can bake.</p>
-        </div>
-        <div class="stats-card">
-          <h3>The stack</h3>
-          <div class="stat-row"><span>Front-end</span><span>HTML, CSS, JavaScript</span></div>
-          <div class="stat-row"><span>Languages</span><span>Python, Java, SQL, R</span></div>
-          <div class="stat-row"><span>ML &amp; Data</span><span>Pandas, Scikit-learn, TensorFlow</span></div>
-          <div class="stat-row"><span>Viz &amp; BI</span><span>Power BI, Streamlit, Matplotlib</span></div>
-          <div class="stat-row"><span>Databases</span><span>MySQL, MongoDB</span></div>
-          <div class="stat-row"><span>Location</span><span>Cork, IE</span></div>
-          <div class="stat-row">
-            <span>On loop</span>
-            <a class="song-link" href="https://www.youtube.com/watch?v=78wrful9cVU" target="_blank" rel="noopener">
-              <span class="note">♪</span> this one song
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="project-list">
 
-    <!-- PROJECTS -->
-    <section class="section" id="projects">
-      <div class="section-label">
-        <span class="num">02 /</span>
-        <h2>Things I've <em>built</em></h2>
+  <div class="project-entry">
+    <a class="p-head" href="project-lwv4.html">
+      <div>
+        <div class="p-title">lwv4 | full platform rebuild</div>
+        <div class="p-client">leisureworld cork</div>
       </div>
-      <div class="projects">
-
-        <a href="#" class="project">
-          <div class="project-num">01</div>
-          <div class="project-body">
-            <h3>Leisureworld Cork — Website &amp; Data Workflows</h3>
-            <p>My current playground. Building their website from scratch and quietly cleaning up how their data flows behind the scenes. Half the day I'm nudging buttons, half the day I'm wrangling spreadsheets. Live and ongoing since Jan 2026.</p>
-            <div class="tags">
-              <span class="tag">HTML/CSS/JS</span>
-              <span class="tag">Python</span>
-              <span class="tag">Data Analysis</span>
-              <span class="tag">Automation</span>
-              <span class="tag">Live project</span>
+      <div class="p-year">2025</div>
+    </a>
+    <div class="p-card">
+      <div class="p-slides">
+        <div class="p-slide" style="background:linear-gradient(160deg,#eaf3fb,#dce8f5);">
+          <div class="mock mock-browser">
+            <div class="mock-topbar"><i></i><i></i><i></i></div>
+            <div class="mock-body">
+              <div class="mock-sidebar"><i></i><i></i><i></i><i></i></div>
+              <div class="mock-main">
+                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:70%"></span><span></span></div><span class="tag">active</span></div>
+                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:55%"></span><span></span></div><span class="tag">active</span></div>
+                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:80%"></span><span></span></div><span class="tag">draft</span></div>
+                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:65%"></span><span></span></div><span class="tag">active</span></div>
+              </div>
             </div>
           </div>
-          <div class="project-arrow">↗</div>
-        </a>
+        </div>
+        <!-- VIDEO SLIDE: replace the placeholder below with a real <video> tag.
+             see the comment block near the top of the <script> for the exact markup to paste in. -->
+        <div class="p-slide video-slot">
+          ▶ drop a screen recording or a clip of you talking through this project here
+        </div>
+      </div>
+      <div class="p-dots"></div>
+    </div>
+  </div>
 
-        <a href="#" class="project">
-          <div class="project-num">02</div>
-          <div class="project-body">
-            <h3>Fashion Retail Demand Forecasting</h3>
-            <p>My MSc thesis - can a small retailer predict what'll sell next month using sales data, Google Trends, and (weirdly) Reddit? Turns out: kind of, yes. XGBoost did most of the heavy lifting, landed around 74% accuracy. Wrapped it in a Streamlit app so humans could actually use it.</p>
-            <div class="tags">
-              <span class="tag">Python</span>
-              <span class="tag">XGBoost</span>
-              <span class="tag">Power BI</span>
-              <span class="tag">Streamlit</span>
-              <span class="tag">MSc thesis</span>
+  <div class="project-entry">
+    <a class="p-head" href="project-listener.html">
+      <div>
+        <div class="p-title">weekly listener | spotify companion app</div>
+        <div class="p-client">personal project</div>
+      </div>
+      <div class="p-year">2025</div>
+    </a>
+    <div class="p-card">
+      <div class="p-slides">
+        <div class="p-slide" style="background:linear-gradient(160deg,#f2f0ec,#e6e3dd);">
+          <div class="mock mock-player">
+            <div class="mock-disc"></div>
+            <div class="lines">
+              <span class="title"></span>
+              <span class="sub"></span>
+            </div>
+            <div class="mock-progress"><i></i></div>
+          </div>
+        </div>
+        <div class="p-slide video-slot">
+          ▶ drop a screen recording or a clip of you talking through this project here
+        </div>
+      </div>
+      <div class="p-dots"></div>
+    </div>
+  </div>
+
+  <div class="project-entry">
+    <a class="p-head" href="project-faq.html">
+      <div>
+        <div class="p-title">faq assistant | gemini-powered chatbot</div>
+        <div class="p-client">personal project</div>
+      </div>
+      <div class="p-year">2026</div>
+    </a>
+    <div class="p-card">
+      <div class="p-slides">
+        <div class="p-slide" style="background:linear-gradient(160deg,#2a2140,#161022);">
+          <div class="mock mock-panel">
+            <div class="mock-stats">
+              <div class="card"><b>1,204</b><small>QUERIES HANDLED</small></div>
+              <div class="card"><b>98%</b><small>RESOLVED</small></div>
+            </div>
+            <div class="mock-chat">
+              <div class="mock-bubble left"><span></span></div>
+              <div class="mock-bubble right"><span></span></div>
+              <div class="mock-bubble left"><span style="width:110px"></span></div>
             </div>
           </div>
-          <div class="project-arrow">↗</div>
-        </a>
-
-        <a href="#" class="project">
-          <div class="project-num">03</div>
-          <div class="project-body">
-            <h3>Smart Accident Severity Detection</h3>
-            <p>If we know the weather, the road, and the location, can we tell how bad an accident is likely to be, in real time? Built an LSTM-CNN hybrid to find out, then a Streamlit dashboard so the output wouldn't just live inside a notebook nobody opens.</p>
-            <div class="tags">
-              <span class="tag">TensorFlow</span>
-              <span class="tag">LSTM-CNN</span>
-              <span class="tag">Streamlit</span>
-              <span class="tag">ML pipeline</span>
-            </div>
-          </div>
-          <div class="project-arrow">↗</div>
-        </a>
-
-        <a href="#" class="project">
-          <div class="project-num">04</div>
-          <div class="project-body">
-            <h3>This Portfolio ✨</h3>
-            <p>The site you're reading. Hand-coded, no frameworks, no builders. If you're wondering what my front-end work looks like — you're already inside a sample of it.</p>
-            <div class="tags">
-              <span class="tag">HTML</span>
-              <span class="tag">CSS</span>
-              <span class="tag">Design</span>
-            </div>
-          </div>
-          <div class="project-arrow">↗</div>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- NOW -->
-    <section class="section" id="now">
-      <div class="section-label">
-        <span class="num">03 /</span>
-        <h2>Right <em>now</em></h2>
-      </div>
-
-      <div class="now-layout">
-
-        <!-- a sticky-note style block -->
-        <div class="now-note note-1">
-          <h4>Learning</h4>
-          <p>Falling down the JavaScript + React rabbit hole. Making small things I don't need, for practice.</p>
         </div>
-
-        <!-- a wide "building" strip -->
-        <div class="now-building">
-          <div class="now-building-label">🔨 currently building</div>
-          <div class="now-building-title">the Leisureworld website &amp; the plumbing behind it</div>
+        <div class="p-slide video-slot">
+          ▶ drop a screen recording or a clip of you talking through this project here
         </div>
-
-        <!-- another note -->
-        <div class="now-note note-2">
-          <h4>Obsessing over</h4>
-          <p>Tiny tools that small teams actually use. Less dashboard, more "oh this saves me 20 minutes a day."</p>
-        </div>
-
-        <!-- a little throwaway personal line with the song -->
-        <p class="now-aside">
-          on repeat while I code:
-          <a href="https://www.youtube.com/watch?v=78wrful9cVU" target="_blank" rel="noopener">
-            <span class="note">♪</span> a song I can't stop playing
-          </a>
-        </p>
-
-        <!-- a goal pill -->
-        <div class="now-goal">
-          <span class="now-goal-star">✦</span>
-          <span>Always looking for the next interesting problem.</span>
-          <span class="now-goal-star">✦</span>
-        </div>
-
       </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="contact" id="contact">
-      <h2>Let's <em>talk</em>.</h2>
-      <a href="mailto:nikitajoisa@gmail.com" class="email">nikitajoisaie@gmail.com</a>
-      <div class="socials">
-        <a href="https://github.com/nikitajoisa" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/nikitajoisa/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </section>
-
-    <footer>
-      © <span id="year"></span> Nikita Joisa · Cork, Ireland · Built with HTML, CSS &amp; caffeine.
-    </footer>
+      <div class="p-dots"></div>
+    </div>
+  </div>
 
   </div>
 
-  <!-- Tiny bit of JS: keep the footer year current -->
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+</section>
+
+<footer>© [your name]</footer>
+
+</div><!-- /.page-front -->
+
+<section class="contact-reveal" id="contact">
+  <div class="contact-inner">
+    <div class="contact-eyebrow">[say hello]</div>
+    <a href="mailto:you@example.com" class="contact-email">you@example.com</a>
+    <div class="contact-links">
+      <a href="#">linkedin</a>
+      <a href="#">github</a>
+      <a href="#">instagram</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ============================================================
+  // HOW TO ADD A REAL VIDEO — read this, then delete this comment
+  // ============================================================
+  // Anywhere you see <div class="p-slide video-slot">...</div>, replace
+  // the whole div with this instead:
+  //
+  //   <div class="p-slide">
+  //     <video src="videos/your-clip.mp4" autoplay muted loop playsinline></video>
+  //   </div>
+  //
+  // Why each attribute matters:
+  //   autoplay  — starts on its own, no click needed
+  //   muted     — REQUIRED for autoplay to work in every browser. a video
+  //               with sound will simply refuse to autoplay without it.
+  //   loop      — restarts when it ends, so it behaves like a background loop
+  //   playsinline — stops iOS Safari from hijacking it into fullscreen
+  //
+  // Where "videos/your-clip.mp4" points matters too: it has to be a real
+  // file sitting next to this html file (or a full https:// URL if you're
+  // hosting it elsewhere, e.g. on the same server as the rest of your site).
+  // Keep clips short and compressed (a few MB, not 100MB) or the page will
+  // load slowly — HandBrake (free) is the easiest way to compress an .mp4.
+  //
+  // Same technique works in the hero: swap the <svg> inside .portrait-wrap
+  // for a <video autoplay muted loop playsinline> the same way.
+  // ============================================================
+
+
+  // ---- particle preloader: scattered dots settle into "nikita" ----
+  const DURATION = 7000; // ms — 5-10s range, real visitors won't bounce
+  const preloader = document.getElementById('preloader');
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let rafId = null;
+  let introFinished = false;
+
+  document.body.style.overflow = 'hidden'; // lock scroll while it plays
+
+  function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+
+  function buildParticles(){
+    const word = 'nikita';
+
+    // 1) draw the word onto an offscreen canvas so we can read where
+    // the actual ink landed — those pixels become our target points
+    const off = document.createElement('canvas');
+    const offCtx = off.getContext('2d');
+    const fontSize = Math.min(160, window.innerWidth * 0.14);
+    off.width = canvas.width;
+    off.height = fontSize * 1.6;
+    offCtx.fillStyle = '#000';
+    offCtx.font = `700 ${fontSize}px 'Space Grotesk', sans-serif`;
+    offCtx.textAlign = 'center';
+    offCtx.textBaseline = 'middle';
+    offCtx.fillText(word, off.width / 2, off.height / 2);
+
+    const imgData = offCtx.getImageData(0, 0, off.width, off.height).data;
+
+    // 2) sample every 4th pixel on a grid — enough to read as letterforms
+    // without creating tens of thousands of particles
+    const step = 4;
+    const targets = [];
+    for (let y = 0; y < off.height; y += step) {
+      for (let x = 0; x < off.width; x += step) {
+        const alpha = imgData[(y * off.width + x) * 4 + 3];
+        if (alpha > 120) {
+          targets.push({
+            x: x,
+            y: (y - off.height / 2) + canvas.height / 2
+          });
+        }
+      }
+    }
+
+    // 3) one particle per target point, starting from a random scattered
+    // position — this random start is the "entropy" state
+    particles = targets.map(t => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      tx: t.x,
+      ty: t.y,
+      r: 1 + Math.random() * 1.6,
+      opacity: 0.3 + Math.random() * 0.6,
+      jitterSeed: Math.random() * Math.PI * 2
+    }));
+  }
+
+  function easeInOutCubic(t){
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  let startTime = null;
+  function animate(ts){
+    if (!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+    const progress = Math.min(elapsed / DURATION, 1);
+    const eased = easeInOutCubic(progress);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      // jitter fades out as particles approach their target —
+      // chaotic wobble early on, dead still once "settled"
+      const wobble = Math.sin(elapsed / 400 + p.jitterSeed) * (1 - eased) * 14;
+      const cx = p.x + (p.tx - p.x) * eased + wobble;
+      const cy = p.y + (p.ty - p.y) * eased + wobble * 0.6;
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(10,10,10,${p.opacity * (0.5 + eased * 0.5)})`;
+      ctx.fill();
+    });
+
+    if (progress < 1 && !introFinished) {
+      rafId = requestAnimationFrame(animate);
+    } else if (!introFinished) {
+      setTimeout(finishIntro, 500); // hold on the finished word for a beat
+    }
+  }
+
+  function finishIntro(){
+    if (introFinished) return;
+    introFinished = true;
+    if (rafId) cancelAnimationFrame(rafId);
+    preloader.classList.add('hide');
+    document.body.style.overflow = '';
+  }
+
+  buildParticles();
+  rafId = requestAnimationFrame(animate);
+  window.addEventListener('resize', () => { resizeCanvas(); buildParticles(); });
+  document.getElementById('skipIntro').addEventListener('click', finishIntro);
+
+  // live clock
+  const clockEl = document.getElementById('clock');
+  function tick(){
+    const d = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    clockEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // clip the white marquee layer to exactly the photo's rectangle,
+  // so the text only turns white while it's passing over the photo
+  const heroEl = document.querySelector('.hero');
+  const portraitEl = document.querySelector('.portrait-wrap');
+  const whiteLayer = document.getElementById('whiteLayer');
+
+  function updateClip(){
+    const heroRect = heroEl.getBoundingClientRect();
+    const pRect = portraitEl.getBoundingClientRect();
+    const top = pRect.top - heroRect.top;
+    const left = pRect.left - heroRect.left;
+    const right = heroRect.right - pRect.right;
+    const bottom = heroRect.bottom - pRect.bottom;
+    whiteLayer.style.clipPath = `inset(${top}px ${right}px ${bottom}px ${left}px)`;
+  }
+  updateClip();
+  window.addEventListener('resize', updateClip);
+  window.addEventListener('load', updateClip);
+
+  // keep the two tracks perfectly synced by restarting both animations
+  // on the same animation frame (guards against any load-timing drift)
+  const trackBlack = document.getElementById('trackBlack');
+  const trackWhite = document.getElementById('trackWhite');
+  requestAnimationFrame(() => {
+    trackBlack.style.animation = 'none';
+    trackWhite.style.animation = 'none';
+    void trackBlack.offsetWidth; // force reflow
+    trackBlack.style.animation = '';
+    trackWhite.style.animation = '';
+  });
+
+  // intro row fade-in on scroll
+  const introRow = document.getElementById('introRow');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) introRow.classList.add('visible'); });
+  }, { threshold: 0.3 });
+  io.observe(introRow);
+
+  // ---- skills: reveal progressively as you scroll through the section,
+  // not all at once — each pill's reveal point is tied to scroll position ----
+  const skillsCloud = document.getElementById('skillsCloud');
+  const skillPills = skillsCloud.querySelectorAll('.skill-pill');
+
+  function updateSkills(){
+    const rect = skillsCloud.getBoundingClientRect();
+    const vh = window.innerHeight;
+    // progress 0 → cloud just entering from the bottom, progress 1 → fully scrolled past
+    const start = vh * 0.9;
+    const end = vh * 0.25;
+    const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
+    const total = skillPills.length;
+    skillPills.forEach((pill, i) => {
+      pill.classList.toggle('visible', i / total < progress);
+    });
+  }
+
+  let skillsTicking = false;
+  window.addEventListener('scroll', () => {
+    if(skillsTicking) return;
+    skillsTicking = true;
+    requestAnimationFrame(() => { updateSkills(); skillsTicking = false; });
+  });
+  updateSkills();
+
+  // ---- swot: trigger the geometry draw-in once, the first time it scrolls into view ----
+  const swotDiagram = document.getElementById('swotDiagram');
+  const swotObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        swotDiagram.classList.add('in-view');
+        swotObserver.unobserve(swotDiagram);
+      }
+    });
+  }, { threshold: 0.35 });
+  swotObserver.observe(swotDiagram);
+
+  // menu toggle placeholder
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    alert('menu overlay goes here next — nav links, socials, etc.');
+  });
+
+  // ---- swipeable card dots: build dots per card, keep them synced to scroll ----
+  document.querySelectorAll('.p-card').forEach(cardEl => {
+    const slidesEl = cardEl.querySelector('.p-slides');
+    const dotsEl = cardEl.querySelector('.p-dots');
+    const slideCount = slidesEl.children.length;
+
+    for(let i = 0; i < slideCount; i++){
+      const dot = document.createElement('span');
+      if(i === 0) dot.classList.add('active');
+      dotsEl.appendChild(dot);
+    }
+    const dots = dotsEl.children;
+
+    let ticking = false;
+    slidesEl.addEventListener('scroll', () => {
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const index = Math.round(slidesEl.scrollLeft / slidesEl.clientWidth);
+        Array.from(dots).forEach((d, i) => d.classList.toggle('active', i === index));
+        ticking = false;
+      });
+    });
+  });
+</script>
+
 
 </body>
 </html>
