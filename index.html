@@ -3,647 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[your name] — portfolio</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
-
-  :root{
-    --bg: #f7f7f5;
-    --ink: #0a0a0a;
-    --grey-0: #d6d6d3;
-    --grey-1: #9c9c98;
-    --pill: #ececea;
-    --pill-ink: #111111;
-  }
-
-  *{ margin:0; padding:0; box-sizing:border-box; }
-
-  html{ scroll-behavior:smooth; }
-
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Inter', sans-serif;
-    overflow-x:hidden;
-    cursor:default;
-  }
-
-  /* ---------- PRELOADER (particles scatter → form "nikita") ---------- */
-  #preloader{
-    position:fixed;
-    inset:0;
-    z-index:200;
-    background:var(--bg);
-    transition:transform .9s cubic-bezier(.76,0,.24,1), opacity .6s ease .1s;
-  }
-  #preloader.hide{
-    transform:translateY(-100%);
-    opacity:0;
-    pointer-events:none;
-  }
-  #particleCanvas{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    display:block;
-  }
-  .skip-intro{
-    position:absolute;
-    bottom:32px;
-    right:32px;
-    background:var(--pill);
-    color:var(--pill-ink);
-    border:none;
-    padding:10px 18px;
-    border-radius:999px;
-    font-size:13px;
-    font-family:'Inter', sans-serif;
-    cursor:pointer;
-    opacity:.75;
-    transition:opacity .2s ease;
-  }
-  .skip-intro:hover{ opacity:1; }
-
-  /* ---------- NAV ---------- */
-  nav{
-    position:fixed;
-    top:0; left:0; right:0;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:24px 32px;
-    z-index:50;
-    pointer-events:none;
-  }
-  nav > *{ pointer-events:auto; }
-
-  .pill{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:10px 18px;
-    border-radius:999px;
-    background:var(--pill);
-    color:var(--pill-ink);
-    font-size:13px;
-    font-weight:500;
-    border:none;
-    cursor:pointer;
-    transition:background .25s ease, transform .25s ease;
-  }
-  .pill:hover{ transform:translateY(-1px); }
-  .dot{ width:7px; height:7px; border-radius:50%; background:var(--pill-ink); display:inline-block; }
-
-  .menu-pill{
-    background:var(--ink);
-    color:#fff;
-    padding:10px 6px 10px 20px;
-    font-weight:600;
-    font-size:13px;
-    letter-spacing:.02em;
-  }
-  .menu-pill span.bracket{ opacity:.5; margin-right:14px; font-weight:400; }
-  .menu-pill .menu-btn{
-    background:#fff;
-    color:var(--ink);
-    border-radius:999px;
-    padding:8px 18px;
-    margin-left:10px;
-  }
-
-  .lang-pill{ background:#8fd3ff; color:#00304a; padding:8px 8px; }
-  .lang-pill .dot{ background:#fff; }
-
-  /* ---------- HERO ---------- */
-  .hero{
-    position:relative;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding-top:110px;
-    overflow:hidden;
-  }
-
-  .hero-meta{
-    display:flex;
-    justify-content:space-between;
-    padding:0 40px;
-    font-size:13px;
-    color:var(--grey-1);
-    margin-bottom:40px;
-  }
-  .hero-meta .listen{ display:flex; align-items:center; gap:8px; }
-  .hero-meta .ring{
-    width:8px; height:8px; border-radius:50%;
-    border:1.5px solid var(--grey-1);
-  }
-
-  .portrait-wrap{
-    position:relative;
-    width:340px;
-    aspect-ratio:3/4;
-    margin:0 auto;
-    z-index:2;
-    border-radius:2px;
-    overflow:hidden;
-    background:linear-gradient(150deg,#3a3a3a 0%,#161616 45%,#4a4a4a 100%);
-  }
-  .portrait-wrap.top-slot{ z-index:2; }
-  .portrait-wrap svg{ width:100%; height:100%; display:block; }
-  .portrait-wrap video{ width:100%; height:100%; object-fit:cover; display:block; }
-  .portrait-wrap canvas{ width:100%; height:100%; display:block; }
-  .portrait-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .portrait-caption{
-    text-align:center;
-    margin-top:14px;
-    font-size:13px;
-    color:var(--grey-1);
-    letter-spacing:.02em;
-  }
-
-  .marquee-layer{
-    position:absolute;
-    top:0; left:0; right:0; bottom:0;
-    display:flex;
-    align-items:center;
-    pointer-events:none;
-  }
-  /* black copy sits under the photo */
-  .marquee-layer.layer-black{ z-index:1; }
-  /* white copy sits above the photo, but is clipped (via JS) to exactly
-     the photo's rectangle, so it's only ever visible there */
-  .marquee-layer.layer-white{ z-index:3; }
-
-  .marquee-track{
-    display:flex;
-    white-space:nowrap;
-    animation:scrollLeft 22s linear infinite;
-    will-change:transform;
-  }
-  .marquee-track span{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:clamp(64px, 11vw, 150px);
-    line-height:1;
-    padding-right:0.35em;
-    letter-spacing:-0.01em;
-  }
-  .layer-black .marquee-track span{ color:#0a0a0a; }
-  .layer-white .marquee-track span{ color:#ffffff; }
-  .marquee-track .sep{ opacity:.9; }
-
-  @keyframes scrollLeft{
-    from{ transform:translateX(0); }
-    to{ transform:translateX(-50%); }
-  }
-
-  /* ---------- INTRO ROW (appears on scroll) ---------- */
-  .intro{
-    max-width:1400px;
-    margin:120px auto 0;
-    padding:0 40px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:40px;
-    opacity:0;
-    transform:translateY(24px);
-    transition:opacity .8s ease, transform .8s ease;
-  }
-  .intro.visible{ opacity:1; transform:translateY(0); }
-
-  .intro .eyebrow{ font-size:14px; color:var(--grey-1); margin-bottom:6px; }
-  .intro .who{ font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:700; }
-  .intro .desc{
-    font-size:19px;
-    line-height:1.5;
-    color:#3a3a3a;
-    max-width:480px;
-    justify-self:end;
-    text-align:left;
-  }
-
-  /* ---------- SKILLS (pop in on scroll) ---------- */
-  .skills{
-    padding:100px 40px;
-    max-width:900px;
-    margin:0 auto;
-  }
-  .section-head{
-    text-align:center;
-    margin-bottom:48px;
-  }
-  .section-head h2{
-    font-family:'Space Grotesk', sans-serif;
-    font-size:22px;
-    font-weight:700;
-  }
-  .skills-cloud{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:12px;
-  }
-  .skill-pill{
-    border:1.5px solid var(--ink);
-    border-radius:999px;
-    padding:10px 20px;
-    font-size:14px;
-    font-weight:500;
-    opacity:0;
-    transform:translateY(14px) scale(.92);
-    transition:opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1);
-  }
-  .skill-pill.visible{ opacity:1; transform:translateY(0) scale(1); }
-  .skill-pill.filled{ background:var(--ink); color:#fff; border-color:var(--ink); }
-
-  /* ---------- ACHIEVEMENTS (numbered columns) ---------- */
-  .achievements{
-    padding:100px 40px 120px;
-    max-width:1100px;
-    margin:0 auto;
-  }
-  .ach-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-  }
-  .ach-col{
-    border-left:1px solid var(--grey-0);
-    padding:0 32px;
-  }
-  .ach-col:first-child{ border-left:none; padding-left:0; }
-  .ach-num{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:clamp(48px, 6vw, 84px);
-    line-height:1;
-  }
-  .ach-label{
-    font-size:12px;
-    letter-spacing:.08em;
-    color:var(--grey-1);
-    margin:14px 0 28px;
-    text-transform:uppercase;
-  }
-  .ach-list{ list-style:none; }
-  .ach-list li{
-    font-size:15px;
-    line-height:1.7;
-    color:#333;
-  }
-  .ach-list li small{
-    display:block;
-    color:var(--grey-1);
-    font-size:12px;
-  }
-
-  @media (max-width:800px){
-    .ach-grid{ grid-template-columns:1fr; }
-    .ach-col{ border-left:none; padding:0 0 40px; border-top:1px solid var(--grey-0); padding-top:32px; }
-    .ach-col:first-child{ border-top:none; padding-top:0; }
-  }
-
-  /* ---------- SWOT (geometry animation) ---------- */
-  .swot{
-    padding:100px 40px 140px;
-  }
-  .swot-diagram{
-    position:relative;
-    max-width:760px;
-    margin:0 auto;
-  }
-  .swot-svg{ width:100%; height:auto; display:block; }
-  .swot-svg .swot-line{
-    stroke:var(--grey-0);
-    stroke-width:1.2;
-    fill:none;
-    stroke-dasharray:220;
-    stroke-dashoffset:220;
-    transition:stroke-dashoffset .55s cubic-bezier(.65,0,.35,1);
-  }
-  /* the sequence lives entirely in these four delay values —
-     each line waits for the circle, then for the line before it */
-  .swot-diagram.in-view .swot-svg .line-1{ stroke-dashoffset:0; transition-delay:.6s; }
-  .swot-diagram.in-view .swot-svg .line-2{ stroke-dashoffset:0; transition-delay:1.3s; }
-  .swot-diagram.in-view .swot-svg .line-3{ stroke-dashoffset:0; transition-delay:2.0s; }
-  .swot-diagram.in-view .swot-svg .line-4{ stroke-dashoffset:0; transition-delay:2.7s; }
-
-  .swot-svg .swot-circle{
-    fill:var(--bg);
-    stroke:var(--ink);
-    stroke-width:1.4;
-    stroke-dasharray:4 5;
-    transform-origin:300px 200px;
-    transform:scale(0);
-    transition:transform .6s cubic-bezier(.34,1.56,.64,1);
-  }
-  .swot-diagram.in-view .swot-svg .swot-circle{ transform:scale(1); }
-
-  .swot-svg .swot-node{
-    fill:var(--ink);
-    opacity:0;
-    transform-origin:center;
-    transform:scale(0);
-    transition:opacity .25s ease, transform .25s cubic-bezier(.34,1.56,.64,1);
-  }
-  .swot-diagram.in-view .swot-svg .n1{ opacity:1; transform:scale(1); transition-delay:1.05s; }
-  .swot-diagram.in-view .swot-svg .n2{ opacity:1; transform:scale(1); transition-delay:1.75s; }
-  .swot-diagram.in-view .swot-svg .n3{ opacity:1; transform:scale(1); transition-delay:2.45s; }
-  .swot-diagram.in-view .swot-svg .n4{ opacity:1; transform:scale(1); transition-delay:3.15s; }
-
-  .swot-center{
-    position:absolute;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%) scale(0);
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:15px;
-    letter-spacing:.05em;
-    opacity:0;
-    transition:opacity .4s ease .3s, transform .4s cubic-bezier(.34,1.56,.64,1) .3s;
-  }
-  .swot-diagram.in-view .swot-center{ opacity:1; transform:translate(-50%,-50%) scale(1); }
-
-  .swot-label{
-    position:absolute;
-    width:180px;
-    opacity:0;
-    transform:translateY(10px);
-    transition:opacity .45s ease, transform .45s ease;
-  }
-  .swot-label .l-title{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:15px; margin-bottom:4px; }
-  .swot-label .l-desc{ font-size:12.5px; line-height:1.5; color:var(--grey-1); }
-  .swot-label.pos-tl{ top:2%; left:0; text-align:left; }
-  .swot-label.pos-tr{ top:2%; right:0; text-align:right; }
-  .swot-label.pos-bl{ bottom:2%; left:0; text-align:left; }
-  .swot-label.pos-br{ bottom:2%; right:0; text-align:right; }
-  /* each label lands right as its line finishes drawing */
-  .swot-diagram.in-view .swot-label.pos-tl{ opacity:1; transform:translateY(0); transition-delay:1.1s; }
-  .swot-diagram.in-view .swot-label.pos-tr{ opacity:1; transform:translateY(0); transition-delay:1.8s; }
-  .swot-diagram.in-view .swot-label.pos-bl{ opacity:1; transform:translateY(0); transition-delay:2.5s; }
-  .swot-diagram.in-view .swot-label.pos-br{ opacity:1; transform:translateY(0); transition-delay:3.2s; }
-
-  @media (max-width:700px){
-    .swot-label{ position:static; width:auto; margin-bottom:20px; text-align:left !important; }
-    .swot-diagram{ display:flex; flex-direction:column; gap:0; }
-  }
-
-  footer{
-    text-align:center;
-    padding:60px 40px 100px;
-    color:var(--grey-1);
-    font-size:13px;
-  }
-
-  /* ---------- CONTACT REVEAL (page-peel effect) ---------- */
-  /* the trick: .page-front holds ALL normal content and sits on top (z-index 1)
-     with a solid background and rounded bottom corners, like a physical page.
-     it's pulled up by a negative bottom margin equal to one viewport height —
-     that "borrows" space from .contact-reveal underneath it.
-     .contact-reveal is position:sticky + bottom:0, so once it's naturally in
-     view it locks to the bottom of the screen — and because .page-front is
-     overlapping it, page-front's rounded edge visibly slides up and off,
-     uncovering contact-reveal like pulling back a page to reveal the one
-     underneath. */
-  .page-front{
-    position:relative;
-    z-index:1;
-    background:var(--bg);
-    border-radius:0 0 40px 40px;
-    box-shadow:0 30px 60px rgba(0,0,0,.12);
-    margin-bottom:-100vh;
-  }
-  .contact-reveal{
-    position:sticky;
-    bottom:0;
-    height:100vh;
-    z-index:0;
-    background:var(--ink);
-    color:#f5f5f3;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .contact-inner{ text-align:center; }
-  .contact-eyebrow{
-    font-size:14px;
-    color:rgba(245,245,243,.5);
-    margin-bottom:20px;
-  }
-  .contact-email{
-    display:inline-block;
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:clamp(32px, 6vw, 68px);
-    color:#f5f5f3;
-    text-decoration:none;
-    border-bottom:2px solid transparent;
-    transition:border-color .25s ease;
-  }
-  .contact-email:hover{ border-color:#f5f5f3; }
-  .contact-links{
-    margin-top:32px;
-    display:flex;
-    gap:24px;
-    justify-content:center;
-  }
-  .contact-links a{
-    color:rgba(245,245,243,.6);
-    text-decoration:none;
-    font-size:14px;
-    transition:color .2s ease;
-  }
-  .contact-links a:hover{ color:#f5f5f3; }
-
-  /* ---------- PROJECT FEED (swipeable cards) ---------- */
-  .work{
-    padding:80px 0 40px;
-  }
-  .work-head{
-    padding:0 40px 40px;
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-  }
-  .work-head h2{
-    font-family:'Space Grotesk', sans-serif;
-    font-size:22px;
-    font-weight:700;
-  }
-  .work-head span{ font-size:13px; color:var(--grey-1); }
-
-  .project-entry{
-    max-width:640px;
-    margin:0 auto 96px;
-    padding:0 24px;
-  }
-  .p-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    margin-bottom:16px;
-    background:none;
-    border:none;
-    padding:0;
-    width:100%;
-    cursor:pointer;
-    text-align:left;
-    font:inherit;
-    color:inherit;
-  }
-  .p-head .p-title{ font-size:17px; font-weight:600; }
-  .p-head .p-client{ font-size:13px; color:var(--grey-1); margin-top:2px; }
-  .p-head .p-year{ font-size:13px; color:var(--grey-1); }
-
-  .p-card{
-    position:relative;
-    border-radius:22px;
-    overflow:hidden;
-    background:#111;
-    box-shadow:0 30px 60px -24px rgba(10,10,10,.35);
-  }
-  .p-slides{
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
-  }
-  .p-slides::-webkit-scrollbar{ display:none; }
-  .p-slide{
-    flex:0 0 100%;
-    scroll-snap-align:start;
-    aspect-ratio:4/5;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .p-slide video, .p-slide img{
-    width:100%; height:100%;
-    object-fit:cover;
-    display:block;
-  }
-  .p-slide.video-slot{
-    flex-direction:column;
-    gap:10px;
-    color:rgba(255,255,255,.5);
-    font-size:13px;
-    text-align:center;
-    padding:24px;
-    border:1px dashed rgba(255,255,255,.25);
-    margin:1px;
-  }
-
-  .p-dots{
-    position:absolute;
-    bottom:16px; left:50%;
-    transform:translateX(-50%);
-    display:flex; gap:6px;
-    z-index:2;
-  }
-  .p-dots span{
-    width:6px; height:6px;
-    border-radius:50%;
-    background:rgba(255,255,255,.4);
-    transition:background .2s ease;
-  }
-  .p-dots span.active{ background:#fff; }
-
-  .card-visual > *{ transition:transform .5s cubic-bezier(.16,1,.3,1); }
-
-  /* --- mockup 1: admin dashboard --- */
-  .mock-browser{
-    width:84%;
-    background:#fff;
-    border-radius:8px;
-    box-shadow:0 24px 48px -16px rgba(10,20,30,.28);
-  }
-  .mock-topbar{ display:flex; align-items:center; gap:6px; padding:10px 12px; background:#f0f0ee; border-radius:8px 8px 0 0; }
-  .mock-topbar i{ width:8px; height:8px; border-radius:50%; display:block; }
-  .mock-topbar i:nth-child(1){ background:#ff5f57; }
-  .mock-topbar i:nth-child(2){ background:#febc2e; }
-  .mock-topbar i:nth-child(3){ background:#28c840; }
-  .mock-body{ display:flex; padding:14px; gap:12px; }
-  .mock-sidebar{ display:flex; flex-direction:column; gap:10px; padding-top:2px; }
-  .mock-sidebar i{ width:14px; height:14px; border-radius:4px; background:#e4e6ea; display:block; }
-  .mock-main{ flex:1; display:flex; flex-direction:column; gap:8px; }
-  .mock-row{ display:flex; align-items:center; gap:8px; background:#f6f7f8; border-radius:6px; padding:7px 9px; }
-  .mock-row .avatar{ width:16px; height:16px; border-radius:50%; background:#c9d4e0; flex-shrink:0; }
-  .mock-row .lines{ flex:1; display:flex; flex-direction:column; gap:4px; }
-  .mock-row .lines span{ display:block; height:5px; border-radius:3px; background:#dfe3e8; }
-  .mock-row .lines span:last-child{ width:60%; }
-  .mock-row .tag{ font-size:7px; font-weight:700; color:#2b6cb0; background:#dbeafe; padding:3px 6px; border-radius:4px; }
-
-  /* --- mockup 2: player card --- */
-  .mock-player{
-    width:70%;
-    background:#fff;
-    border-radius:14px;
-    box-shadow:0 24px 48px -16px rgba(10,20,30,.28);
-    padding:20px;
-    display:flex; flex-direction:column; align-items:center; gap:14px;
-  }
-  .mock-disc{
-    width:88px; height:88px; border-radius:50%;
-    background:conic-gradient(from 180deg,#1db954,#0a3d1f,#1db954);
-    position:relative;
-  }
-  .mock-disc::after{ content:""; position:absolute; inset:36%; border-radius:50%; background:#fff; }
-  .mock-player .lines{ width:100%; display:flex; flex-direction:column; gap:6px; align-items:center; }
-  .mock-player .lines span{ display:block; height:6px; border-radius:3px; background:#e4e6ea; }
-  .mock-player .lines span.title{ width:70%; height:8px; background:#333; }
-  .mock-player .lines span.sub{ width:45%; }
-  .mock-progress{ width:100%; height:4px; border-radius:2px; background:#eceeef; overflow:hidden; }
-  .mock-progress i{ display:block; width:38%; height:100%; background:#1db954; }
-
-  /* --- mockup 3: chat + stats --- */
-  .mock-panel{
-    width:86%;
-    background:#fff;
-    border-radius:10px;
-    box-shadow:0 24px 48px -16px rgba(10,20,30,.28);
-    padding:16px;
-    display:flex; flex-direction:column; gap:12px;
-  }
-  .mock-stats{ display:flex; gap:8px; }
-  .mock-stats .card{ flex:1; background:#f7f5fb; border-radius:8px; padding:8px 10px; }
-  .mock-stats .card b{ display:block; font-size:15px; color:#20003d; }
-  .mock-stats .card small{ font-size:8px; color:#9c9c98; }
-  .mock-chat{ display:flex; flex-direction:column; gap:6px; }
-  .mock-bubble{ max-width:70%; padding:7px 10px; border-radius:10px; font-size:0; }
-  .mock-bubble span{ display:block; height:5px; border-radius:3px; background:currentColor; opacity:.35; width:80px; }
-  .mock-bubble.left{ align-self:flex-start; background:#f0f0f0; color:#333; border-bottom-left-radius:2px; }
-  .mock-bubble.right{ align-self:flex-end; background:#20003d; color:#fff; border-bottom-right-radius:2px; }
-  .mock-bubble.right span{ opacity:.55; }
-
-  @media (max-width:800px){
-    .intro{ grid-template-columns:1fr; }
-    .intro .desc{ justify-self:start; }
-  }
-
-  @media (min-width:900px){
-    .project-entry{ max-width:400px; }
-
-    .project-list{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:28px;
-      max-width:1320px;
-      margin:0 auto;
-      padding:0 40px;
-      align-items:start;
-    }
-    .project-list .project-entry{
-      max-width:none;
-      margin:0;
-      padding:0;
-    }
-  }
-</style>
+<title>[nikita] — portfolio</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<div class="custom-cursor" id="customCursor">
+  <i class="cc-corner tl"></i>
+  <i class="cc-corner tr"></i>
+  <i class="cc-corner bl"></i>
+  <i class="cc-corner br"></i>
+</div>
 
 <div id="preloader">
   <canvas id="particleCanvas"></canvas>
@@ -654,16 +24,27 @@
 
 <nav>
   <a href="#contact" class="pill"><span class="dot"></span>get in touch</a>
-  <button class="pill menu-pill" id="menuToggle">
-    <span class="bracket">[ ]</span><span class="menu-btn">menu</span>
-  </button>
-  <button class="pill lang-pill"><span class="dot"></span>en</button>
+  <div class="menu-wrap">
+    <button class="pill menu-pill" id="menuToggle">
+      <span class="bracket">[ ]</span><span class="menu-btn">menu</span>
+    </button>
+    <div class="menu-dropdown" id="menuDropdown">
+      <div class="menu-dropdown-inner">
+        <a href="#"><span class="menu-dot"></span>home</a>
+        <a href="about.html"><span class="menu-dot"></span>about</a>
+        <a href="#work"><span class="menu-dot"></span>projects</a>
+        <a href="#contact"><span class="menu-dot"></span>get in touch</a>
+      </div>
+    </div>
+  </div>
+  <a href="about.html" class="pill name-pill">nikita</a>
 </nav>
+
+<div class="menu-backdrop" id="menuBackdrop"></div>
 
 <section class="hero">
   <div class="hero-meta">
     <span id="clock">00:00:00</span>
-    <span class="listen"><span class="ring"></span>lend an ear</span>
   </div>
 
   <div class="portrait-wrap">
@@ -691,7 +72,7 @@
 <div class="intro" id="introRow">
   <div>
     <div class="eyebrow">[hey, i'm]</div>
-    <div class="who">[your name]</div>
+    <div class="who">nikita</div>
   </div>
   <p class="desc">i build data-driven products end to end — from the pipeline to the interface. what i care about is turning messy data into something a person can actually use.</p>
 </div>
@@ -782,7 +163,7 @@
   </div>
 </section>
 
-<section class="work">
+<section class="work" id="work">
   <div class="work-head">
     <h2>my best work</h2>
     <span>03 projects</span>
@@ -791,7 +172,7 @@
   <div class="project-list">
 
   <div class="project-entry">
-    <a class="p-head" href="project-lwv4.html">
+    <a class="p-head" href="projects/p1.html">
       <div>
         <div class="p-title">lwv4 | full platform rebuild</div>
         <div class="p-client">leisureworld cork</div>
@@ -800,25 +181,11 @@
     </a>
     <div class="p-card">
       <div class="p-slides">
-        <div class="p-slide" style="background:linear-gradient(160deg,#eaf3fb,#dce8f5);">
-          <div class="mock mock-browser">
-            <div class="mock-topbar"><i></i><i></i><i></i></div>
-            <div class="mock-body">
-              <div class="mock-sidebar"><i></i><i></i><i></i><i></i></div>
-              <div class="mock-main">
-                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:70%"></span><span></span></div><span class="tag">active</span></div>
-                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:55%"></span><span></span></div><span class="tag">active</span></div>
-                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:80%"></span><span></span></div><span class="tag">draft</span></div>
-                <div class="mock-row"><div class="avatar"></div><div class="lines"><span style="width:65%"></span><span></span></div><span class="tag">active</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- VIDEO SLIDE: replace the placeholder below with a real <video> tag.
-             see the comment block near the top of the <script> for the exact markup to paste in. -->
-        <div class="p-slide video-slot">
-          ▶ drop a screen recording or a clip of you talking through this project here
-        </div>
+        <div class="p-slide"><img src="Images/jb1.png" alt="lwv4 screenshot 1"></div>
+        <div class="p-slide"><img src="Images/jb2.png" alt="lwv4 screenshot 2"></div>
+        <div class="p-slide"><img src="Images/jb3.png" alt="lwv4 screenshot 3"></div>
+        <div class="p-slide"><img src="Images/jb4.png" alt="lwv4 screenshot 4"></div>
+        <div class="p-slide"><img src="Images/jb5.png" alt="lwv4 screenshot 5"></div>
       </div>
       <div class="p-dots"></div>
     </div>
@@ -893,271 +260,35 @@
 
 <section class="contact-reveal" id="contact">
   <div class="contact-inner">
-    <div class="contact-eyebrow">[say hello]</div>
-    <a href="mailto:you@example.com" class="contact-email">you@example.com</a>
-    <div class="contact-links">
-      <a href="#">linkedin</a>
-      <a href="#">github</a>
-      <a href="#">instagram</a>
+
+    <h2 class="contact-title">[LET'S TALK]</h2>
+
+    <div>
+      <div class="contact-row">
+        <div class="c-col">get in touch</div>
+        <div class="c-col c-mid">say hello, pitch an idea, or just tell me the code compiles &gt;&gt;&gt;</div>
+        <div class="c-col c-right">open to work<br>2026 —</div>
+      </div>
+
+      <a href="mailto:nikitajoisaie@gmail.com" class="contact-email">nikitajoisaie@gmail.com</a>
+      <div class="contact-links">
+        <a href="#">linkedin</a>
+        <a href="#">github</a>
+        <a href="#">instagram</a>
+      </div>
     </div>
+
+    <div class="contact-footer-row">
+      <span>© copyright nikita joisa 2026</span>
+      <span>nikitajoisa.com</span>
+      <span>[cork, ie]</span>
+    </div>
+
   </div>
 </section>
 
-<script>
-  // ============================================================
-  // HOW TO ADD A REAL VIDEO — read this, then delete this comment
-  // ============================================================
-  // Anywhere you see <div class="p-slide video-slot">...</div>, replace
-  // the whole div with this instead:
-  //
-  //   <div class="p-slide">
-  //     <video src="videos/your-clip.mp4" autoplay muted loop playsinline></video>
-  //   </div>
-  //
-  // Why each attribute matters:
-  //   autoplay  — starts on its own, no click needed
-  //   muted     — REQUIRED for autoplay to work in every browser. a video
-  //               with sound will simply refuse to autoplay without it.
-  //   loop      — restarts when it ends, so it behaves like a background loop
-  //   playsinline — stops iOS Safari from hijacking it into fullscreen
-  //
-  // Where "videos/your-clip.mp4" points matters too: it has to be a real
-  // file sitting next to this html file (or a full https:// URL if you're
-  // hosting it elsewhere, e.g. on the same server as the rest of your site).
-  // Keep clips short and compressed (a few MB, not 100MB) or the page will
-  // load slowly — HandBrake (free) is the easiest way to compress an .mp4.
-  //
-  // Same technique works in the hero: swap the <svg> inside .portrait-wrap
-  // for a <video autoplay muted loop playsinline> the same way.
-  // ============================================================
 
 
-  // ---- particle preloader: scattered dots settle into "nikita" ----
-  const DURATION = 7000; // ms — 5-10s range, real visitors won't bounce
-  const preloader = document.getElementById('preloader');
-  const canvas = document.getElementById('particleCanvas');
-  const ctx = canvas.getContext('2d');
-  let particles = [];
-  let rafId = null;
-  let introFinished = false;
-
-  document.body.style.overflow = 'hidden'; // lock scroll while it plays
-
-  function resizeCanvas(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-
-  function buildParticles(){
-    const word = 'nikita';
-
-    // 1) draw the word onto an offscreen canvas so we can read where
-    // the actual ink landed — those pixels become our target points
-    const off = document.createElement('canvas');
-    const offCtx = off.getContext('2d');
-    const fontSize = Math.min(160, window.innerWidth * 0.14);
-    off.width = canvas.width;
-    off.height = fontSize * 1.6;
-    offCtx.fillStyle = '#000';
-    offCtx.font = `700 ${fontSize}px 'Space Grotesk', sans-serif`;
-    offCtx.textAlign = 'center';
-    offCtx.textBaseline = 'middle';
-    offCtx.fillText(word, off.width / 2, off.height / 2);
-
-    const imgData = offCtx.getImageData(0, 0, off.width, off.height).data;
-
-    // 2) sample every 4th pixel on a grid — enough to read as letterforms
-    // without creating tens of thousands of particles
-    const step = 4;
-    const targets = [];
-    for (let y = 0; y < off.height; y += step) {
-      for (let x = 0; x < off.width; x += step) {
-        const alpha = imgData[(y * off.width + x) * 4 + 3];
-        if (alpha > 120) {
-          targets.push({
-            x: x,
-            y: (y - off.height / 2) + canvas.height / 2
-          });
-        }
-      }
-    }
-
-    // 3) one particle per target point, starting from a random scattered
-    // position — this random start is the "entropy" state
-    particles = targets.map(t => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      tx: t.x,
-      ty: t.y,
-      r: 1 + Math.random() * 1.6,
-      opacity: 0.3 + Math.random() * 0.6,
-      jitterSeed: Math.random() * Math.PI * 2
-    }));
-  }
-
-  function easeInOutCubic(t){
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  }
-
-  let startTime = null;
-  function animate(ts){
-    if (!startTime) startTime = ts;
-    const elapsed = ts - startTime;
-    const progress = Math.min(elapsed / DURATION, 1);
-    const eased = easeInOutCubic(progress);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      // jitter fades out as particles approach their target —
-      // chaotic wobble early on, dead still once "settled"
-      const wobble = Math.sin(elapsed / 400 + p.jitterSeed) * (1 - eased) * 14;
-      const cx = p.x + (p.tx - p.x) * eased + wobble;
-      const cy = p.y + (p.ty - p.y) * eased + wobble * 0.6;
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(10,10,10,${p.opacity * (0.5 + eased * 0.5)})`;
-      ctx.fill();
-    });
-
-    if (progress < 1 && !introFinished) {
-      rafId = requestAnimationFrame(animate);
-    } else if (!introFinished) {
-      setTimeout(finishIntro, 500); // hold on the finished word for a beat
-    }
-  }
-
-  function finishIntro(){
-    if (introFinished) return;
-    introFinished = true;
-    if (rafId) cancelAnimationFrame(rafId);
-    preloader.classList.add('hide');
-    document.body.style.overflow = '';
-  }
-
-  buildParticles();
-  rafId = requestAnimationFrame(animate);
-  window.addEventListener('resize', () => { resizeCanvas(); buildParticles(); });
-  document.getElementById('skipIntro').addEventListener('click', finishIntro);
-
-  // live clock
-  const clockEl = document.getElementById('clock');
-  function tick(){
-    const d = new Date();
-    const pad = n => String(n).padStart(2,'0');
-    clockEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-  }
-  tick();
-  setInterval(tick, 1000);
-
-  // clip the white marquee layer to exactly the photo's rectangle,
-  // so the text only turns white while it's passing over the photo
-  const heroEl = document.querySelector('.hero');
-  const portraitEl = document.querySelector('.portrait-wrap');
-  const whiteLayer = document.getElementById('whiteLayer');
-
-  function updateClip(){
-    const heroRect = heroEl.getBoundingClientRect();
-    const pRect = portraitEl.getBoundingClientRect();
-    const top = pRect.top - heroRect.top;
-    const left = pRect.left - heroRect.left;
-    const right = heroRect.right - pRect.right;
-    const bottom = heroRect.bottom - pRect.bottom;
-    whiteLayer.style.clipPath = `inset(${top}px ${right}px ${bottom}px ${left}px)`;
-  }
-  updateClip();
-  window.addEventListener('resize', updateClip);
-  window.addEventListener('load', updateClip);
-
-  // keep the two tracks perfectly synced by restarting both animations
-  // on the same animation frame (guards against any load-timing drift)
-  const trackBlack = document.getElementById('trackBlack');
-  const trackWhite = document.getElementById('trackWhite');
-  requestAnimationFrame(() => {
-    trackBlack.style.animation = 'none';
-    trackWhite.style.animation = 'none';
-    void trackBlack.offsetWidth; // force reflow
-    trackBlack.style.animation = '';
-    trackWhite.style.animation = '';
-  });
-
-  // intro row fade-in on scroll
-  const introRow = document.getElementById('introRow');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) introRow.classList.add('visible'); });
-  }, { threshold: 0.3 });
-  io.observe(introRow);
-
-  // ---- skills: reveal progressively as you scroll through the section,
-  // not all at once — each pill's reveal point is tied to scroll position ----
-  const skillsCloud = document.getElementById('skillsCloud');
-  const skillPills = skillsCloud.querySelectorAll('.skill-pill');
-
-  function updateSkills(){
-    const rect = skillsCloud.getBoundingClientRect();
-    const vh = window.innerHeight;
-    // progress 0 → cloud just entering from the bottom, progress 1 → fully scrolled past
-    const start = vh * 0.9;
-    const end = vh * 0.25;
-    const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
-    const total = skillPills.length;
-    skillPills.forEach((pill, i) => {
-      pill.classList.toggle('visible', i / total < progress);
-    });
-  }
-
-  let skillsTicking = false;
-  window.addEventListener('scroll', () => {
-    if(skillsTicking) return;
-    skillsTicking = true;
-    requestAnimationFrame(() => { updateSkills(); skillsTicking = false; });
-  });
-  updateSkills();
-
-  // ---- swot: trigger the geometry draw-in once, the first time it scrolls into view ----
-  const swotDiagram = document.getElementById('swotDiagram');
-  const swotObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        swotDiagram.classList.add('in-view');
-        swotObserver.unobserve(swotDiagram);
-      }
-    });
-  }, { threshold: 0.35 });
-  swotObserver.observe(swotDiagram);
-
-  // menu toggle placeholder
-  document.getElementById('menuToggle').addEventListener('click', () => {
-    alert('menu overlay goes here next — nav links, socials, etc.');
-  });
-
-  // ---- swipeable card dots: build dots per card, keep them synced to scroll ----
-  document.querySelectorAll('.p-card').forEach(cardEl => {
-    const slidesEl = cardEl.querySelector('.p-slides');
-    const dotsEl = cardEl.querySelector('.p-dots');
-    const slideCount = slidesEl.children.length;
-
-    for(let i = 0; i < slideCount; i++){
-      const dot = document.createElement('span');
-      if(i === 0) dot.classList.add('active');
-      dotsEl.appendChild(dot);
-    }
-    const dots = dotsEl.children;
-
-    let ticking = false;
-    slidesEl.addEventListener('scroll', () => {
-      if(ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const index = Math.round(slidesEl.scrollLeft / slidesEl.clientWidth);
-        Array.from(dots).forEach((d, i) => d.classList.toggle('active', i === index));
-        ticking = false;
-      });
-    });
-  });
-</script>
-
-
+<script src="script.js"></script>
 </body>
 </html>

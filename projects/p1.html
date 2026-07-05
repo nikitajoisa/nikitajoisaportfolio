@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LWv4: Full Digital Platform Rebuild — [your name]</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --bg: #f7f7f5;
+    --ink: #0a0a0a;
+    --grey-0: #d6d6d3;
+    --grey-1: #9c9c98;
+    --pill: #ececea;
+    --pill-ink: #111111;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+  }
+
+  nav{ padding:24px 32px; }
+  .back-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border-radius:999px;
+    background:var(--pill);
+    color:var(--pill-ink);
+    font-size:13px;
+    font-weight:500;
+    text-decoration:none;
+  }
+
+  header.p-detail-head{
+    max-width:900px;
+    margin:40px auto 0;
+    padding:0 32px;
+  }
+  .p-eyebrow{ font-size:14px; color:var(--grey-1); margin-bottom:10px; }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:clamp(32px, 5vw, 52px);
+    font-weight:700;
+    line-height:1.1;
+  }
+  .p-meta{ font-size:14px; color:var(--grey-1); margin-top:12px; }
+
+  .gallery{
+    position:relative;
+    max-width:900px;
+    margin:40px auto;
+    padding:0 32px;
+  }
+  .gallery-card{
+    position:relative;
+    border-radius:22px;
+    overflow:hidden;
+    background:#111;
+    box-shadow:0 30px 60px -24px rgba(10,10,10,.35);
+  }
+  .gallery-slides{
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .gallery-slides::-webkit-scrollbar{ display:none; }
+  .gallery-slide{
+    flex:0 0 100%;
+    scroll-snap-align:start;
+    aspect-ratio:16/10;
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(255,255,255,.55);
+    font-size:14px;
+    text-align:center;
+    padding:24px;
+  }
+  .gallery-slide img, .gallery-slide video{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .gallery-slide.video-slot{
+    border:1px dashed rgba(255,255,255,.25);
+    margin:1px;
+  }
+  .gallery-dots{
+    position:absolute;
+    bottom:16px; left:50%;
+    transform:translateX(-50%);
+    display:flex; gap:6px;
+  }
+  .gallery-dots span{
+    width:6px; height:6px; border-radius:50%;
+    background:rgba(255,255,255,.4);
+    transition:background .2s ease;
+  }
+  .gallery-dots span.active{ background:#fff; }
+
+  .p-body{
+    max-width:700px;
+    margin:0 auto 100px;
+    padding:0 32px;
+  }
+  .p-desc{ font-size:17px; line-height:1.7; color:#333; margin-bottom:32px; }
+  .p-stack{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:36px; }
+  .p-stack span{
+    font-size:12px;
+    background:var(--pill);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .github-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--ink);
+    color:#fff;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    padding:14px 24px;
+    border-radius:999px;
+    transition:opacity .2s ease;
+  }
+  .github-btn:hover{ opacity:.85; }
+
+  footer{ text-align:center; padding:40px; color:var(--grey-1); font-size:13px; }
+</style>
+</head>
+<body>
+
+<nav><a href="../index.html" class="back-pill">← back to portfolio</a></nav>
+
+<header class="p-detail-head">
+  <h1>JobHunter AI</h1>
+</header>
+
+<div class="gallery">
+  <div class="gallery-card">
+    <div class="gallery-slides" id="gallerySlides">
+      <div class="gallery-slide"><img src="../Images/jb1.png" alt="lwv4 screenshot 1"></div>
+      <div class="gallery-slide"><img src="../Images/jb2.png" alt="lwv4 screenshot 2"></div>
+      <div class="gallery-slide"><img src="../Images/jb3.png" alt="lwv4 screenshot 2"></div>
+      <div class="gallery-slide"><img src="../Images/jb4.png" alt="lwv4 screenshot 2"></div>
+      <div class="gallery-slide"><img src="../Images/jb5.png" alt="lwv4 screenshot 2"></div>
+    </div>
+    <div class="gallery-dots" id="galleryDots"></div>
+  </div>
+</div>
+
+<div class="p-body">
+  <p class="p-desc">Built an AI job-hunting assistant after getting tired of rewriting resumes for every application. Runs entirely offline using Ollama and Llama 3.2, tailoring resumes from a single master profile, generating ATS-friendly DOCX files, and highlighting missing skills without inventing experience. Designed as the foundation for a fully autonomous job application agent. Built with Python, Ollama, JSON, and DOCX generation.</p>
+  <a href="https://github.com/nikitajoisa/jobhunter-ai" target="_blank" rel="noopener" class="github-btn">view on github →</a>
+</div>
+
+<footer>© [your name]</footer>
+
+<script>
+  const slidesEl = document.getElementById('gallerySlides');
+  const dotsEl = document.getElementById('galleryDots');
+  const count = slidesEl.children.length;
+  for(let i = 0; i < count; i++){
+    const dot = document.createElement('span');
+    if(i === 0) dot.classList.add('active');
+    dotsEl.appendChild(dot);
+  }
+  const dots = dotsEl.children;
+  let ticking = false;
+  slidesEl.addEventListener('scroll', () => {
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const index = Math.round(slidesEl.scrollLeft / slidesEl.clientWidth);
+      Array.from(dots).forEach((d, i) => d.classList.toggle('active', i === index));
+      ticking = false;
+    });
+  });
+</script>
+
+</body>
+</html>
